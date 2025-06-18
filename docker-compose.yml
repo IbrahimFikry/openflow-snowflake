@@ -78,6 +78,61 @@ services:
     networks:
       - pipeline_network
 
+  airflow-webserver:
+    image: apache/airflow:2.8.1
+    container_name: airflow_web
+    restart: always
+    depends_on:
+      - postgres_airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_AIRFLOW_USER}:${POSTGRES_AIRFLOW_PASSWORD}@postgres_airflow:5432/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: mysecretkey
+      AIRFLOW__CORE__FERNET_KEY: ""
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+    volumes:
+      - ./dags:/opt/airflow/dags
+    ports:
+      - "10000:8080"
+    command: webserver
+    networks:
+      - pipeline_network
+
+  airflow-scheduler:
+    image: apache/airflow:2.8.1
+    container_name: airflow_scheduler
+    restart: always
+    depends_on:
+      - postgres_airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_AIRFLOW_USER}:${POSTGRES_AIRFLOW_PASSWORD}@postgres_airflow:5432/airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+    command: scheduler
+    networks:
+      - pipeline_network
+
+  airflow-init:
+    image: apache/airflow:2.8.1
+    container_name: airflow_init
+    depends_on:
+      - postgres_airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_AIRFLOW_USER}:${POSTGRES_AIRFLOW_PASSWORD}@postgres_airflow:5432/airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+    command: bash -c "airflow db migrate && airflow users create \
+      --username ${AIRFLOW_USER} \
+      --firstname Ibrahim \
+      --lastname Fikry \
+      --role Admin \
+      --email admin@example.com \
+      --password ${AIRFLOW_PASSWORD}"
+    networks:
+      - pipeline_network
+
 networks:
   pipeline_network:
     driver: bridge
