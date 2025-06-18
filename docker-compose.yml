@@ -65,6 +65,21 @@ services:
     networks:
       - pipeline_network
 
+  postgres_analytics:
+    image: postgres:13
+    container_name: postgres_analytics
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATA_ANALYST_USER}
+      POSTGRES_PASSWORD: ${DATA_ANALYST_USER}
+      POSTGRES_DB: analytics
+    expose:
+      - "5432"
+    # volumes:
+    #   - airflow_postgres_data:/var/lib/postgresql/data
+    networks:
+      - pipeline_network
+
   postgres_airflow:
     image: postgres:13
     container_name: postgres_airflow
