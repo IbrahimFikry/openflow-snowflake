@@ -1,10 +1,8 @@
 services:
-  mongodb:
+  mongo:
     image: mongo:6
-    container_name: mongodb
+    container_name: mongo
     restart: always
-    environment:
-      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
     # volumes:
     #   - mongo_data:/data/db
     expose:
@@ -17,14 +15,13 @@ services:
     container_name: mongo_web
     restart: always
     environment:
-      ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - "8081:8081" # Only this is available to your host machine
     depends_on:
-      - mongodb
+      - mongo
     networks:
       - pipeline_network
 
