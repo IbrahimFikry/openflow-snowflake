@@ -1,0 +1,35 @@
+services:
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
+    # volumes:
+    #   - mongo_data:/data/db
+    expose:
+      - "27017" # Exposed to other containers in the same network
+    networks:
+      - pipeline_network
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_web
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "8081:8081" # Only this is available to your host machine
+    depends_on:
+      - mongodb
+    networks:
+      - pipeline_network
+
+networks:
+  pipeline_network:
+    driver: bridge
+# volumes:
+#   mongo_data:
