@@ -36,8 +36,10 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    expose:
-      - "3306" # Exposed to other containers in the same network
+    # expose:
+    #   - "3306" # Exposed to other containers in the same network
+    ports:
+      - "3306:3306" # Only this is available to your host machine
     networks:
       - pipeline_network
 
