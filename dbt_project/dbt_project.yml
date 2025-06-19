@@ -1,0 +1,15 @@
+name: customer_analytics
+version: "1.0"
+config-version: 2
+
+profile: customer_profile
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  customer_analytics:
+    +materialized: table

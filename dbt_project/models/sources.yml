@@ -1,0 +1,6 @@
+version: 2
+
+sources:
+  - name: public # schema name in Postgres
+    tables:
+      - name: stg_customer_raw # table name in Postgres

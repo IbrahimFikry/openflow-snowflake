@@ -3,3 +3,6 @@ fakedata-scripts
 custom-connector
 dags
 .env
+dbt_project/logs
+dbt_project/target
+.dbt
