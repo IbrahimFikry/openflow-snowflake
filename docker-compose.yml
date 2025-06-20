@@ -109,6 +109,9 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./dbt_project:/opt/airflow/dbt_project
+      - ./.dbt:/home/airflow/.dbt
+
     ports:
       - "10000:8080"
     command: webserver
@@ -126,6 +129,9 @@ services:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_AIRFLOW_USER}:${POSTGRES_AIRFLOW_PASSWORD}@postgres_airflow:5432/airflow
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./dbt_project:/opt/airflow/dbt_project
+      - ./.dbt:/home/airflow/.dbt
+
     command: scheduler
     networks:
       - pipeline_network
@@ -140,6 +146,9 @@ services:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_AIRFLOW_USER}:${POSTGRES_AIRFLOW_PASSWORD}@postgres_airflow:5432/airflow
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./dbt_project:/opt/airflow/dbt_project
+      - ./.dbt:/home/airflow/.dbt
+
     command: bash -c "airflow db migrate && airflow users create \
       --username ${AIRFLOW_USER} \
       --firstname Ibrahim \
@@ -147,6 +156,23 @@ services:
       --role Admin \
       --email admin@example.com \
       --password ${AIRFLOW_PASSWORD}"
+    networks:
+      - pipeline_network
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: ${DATA_ANALYST_USER}
+      MB_DB_PASS: ${DATA_ANALYST_PASSWORD}
+      MB_DB_HOST: postgres_analytics
+    depends_on:
+      - postgres_analytics
     networks:
       - pipeline_network
 
