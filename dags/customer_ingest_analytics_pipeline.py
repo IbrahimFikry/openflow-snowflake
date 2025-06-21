@@ -184,7 +184,7 @@ with DAG(
         try:
             logging.info("Running dbt run for fct_customer_by_country...")
             result = subprocess.run(
-                ["dbt", "run", "--select", "fct_customer_by_country"],
+                ["dbt", "run", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_country"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
@@ -197,7 +197,7 @@ with DAG(
 
             logging.info("Running dbt test...")
             test_result = subprocess.run(
-                ["dbt", "test", "--select", "fct_customer_by_country"],
+                ["dbt", "test", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_country"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
@@ -225,7 +225,7 @@ with DAG(
         try:
             logging.info("Running dbt run for fct_customer_by_month...")
             result = subprocess.run(
-                ["dbt", "run", "--select", "fct_customer_by_month"],
+                ["dbt", "run", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_month"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
@@ -238,7 +238,7 @@ with DAG(
 
             logging.info("Running dbt test...")
             test_result = subprocess.run(
-                ["dbt", "test", "--select", "fct_customer_by_month"],
+                ["dbt", "test", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_month"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
@@ -266,7 +266,7 @@ with DAG(
         try:
             logging.info("Running dbt run for fct_customer_by_platform...")
             result = subprocess.run(
-                ["dbt", "run", "--select", "fct_customer_by_platform"],
+                ["dbt", "run", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_platform"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
@@ -279,7 +279,7 @@ with DAG(
 
             logging.info("Running dbt test...")
             test_result = subprocess.run(
-                ["dbt", "test", "--select", "fct_customer_by_platform"],
+                ["dbt", "test", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_platform"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
@@ -307,7 +307,7 @@ with DAG(
         try:
             logging.info("Running dbt run for fct_customer_by_watchlist...")
             result = subprocess.run(
-                ["dbt", "run", "--select", "fct_customer_by_watchlist"],
+                ["dbt", "run", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_watchlist"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
@@ -320,7 +320,7 @@ with DAG(
 
             logging.info("Running dbt test...")
             test_result = subprocess.run(
-                ["dbt", "test", "--select", "fct_customer_by_watchlist"],
+                ["dbt", "test", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_watchlist"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
