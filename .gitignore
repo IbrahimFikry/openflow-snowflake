@@ -4,5 +4,5 @@ custom-connector
 .env
 dbt_project/logs
 dbt_project/target
-.dbt
 dags/__pycache__
+backup.yml

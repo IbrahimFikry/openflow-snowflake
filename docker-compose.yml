@@ -110,7 +110,7 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ./dbt_project:/opt/airflow/dbt_project
-      - ./.dbt:/home/airflow/.dbt
+      - ./dbt_project/.dbt:/home/airflow/.dbt
 
     ports:
       - "10000:8080"
@@ -130,7 +130,7 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ./dbt_project:/opt/airflow/dbt_project
-      - ./.dbt:/home/airflow/.dbt
+      - ./dbt_project/.dbt:/home/airflow/.dbt
 
     command: scheduler
     networks:
@@ -147,7 +147,7 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ./dbt_project:/opt/airflow/dbt_project
-      - ./.dbt:/home/airflow/.dbt
+      - ./dbt_project/.dbt:/home/airflow/.dbt
 
     command: bash -c "airflow db migrate && airflow users create \
       --username ${AIRFLOW_USER} \
