@@ -279,7 +279,7 @@ with DAG(
 
             logging.info("Running dbt test...")
             test_result = subprocess.run(
-                ["dbt", "test", "--select","--project-dir", dbt_project_path,"--profiles-dir", "/home/airflow/.dbt", "fct_customer_by_platform"],
+                ["dbt", "test", "--select","fct_customer_by_platform"],
                 cwd=dbt_project_path,
                 env=env,
                 capture_output=True,
