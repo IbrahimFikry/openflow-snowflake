@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 from airflow.utils.dates import days_ago
 from datetime import timedelta, datetime
 import logging
@@ -67,7 +68,6 @@ with DAG(
 
         # Optional: Push XCom so next task can use the file path
         kwargs['ti'].xcom_push(key='customer_csv_path', value=output_path)
-
     def save_to_minio(**kwargs):
         logging.info("Preparing to save file to MinIO...")
 
@@ -115,7 +115,6 @@ with DAG(
 
         # Optional: push the object name to XCom for the next task
         ti.xcom_push(key='minio_object_key', value=filename)
-
     def load_to_postgres(**kwargs):
         logging.info("Starting load from MinIO to PostgreSQL...")
 
@@ -171,7 +170,6 @@ with DAG(
         logging.info(f"Loading data into PostgreSQL table '{table_name}'...")
         df.to_sql(table_name, engine, if_exists='replace', index=False)
         logging.info("Data successfully loaded into PostgreSQL.")
-
     def run_dbt_transform(**kwargs):
         logging.info("Starting dbt transformation...")
 
@@ -212,7 +210,6 @@ with DAG(
         except Exception as e:
             logging.error(f"dbt transform failed: {str(e)}")
             raise
-
     def run_dbt_transform_monthly(**kwargs):
         logging.info("Starting dbt transformation...")
 
@@ -253,7 +250,6 @@ with DAG(
         except Exception as e:
             logging.error(f"dbt transform failed: {str(e)}")
             raise
-
     def run_dbt_transform_platform(**kwargs):
         logging.info("Starting dbt transformation...")
 
@@ -294,7 +290,6 @@ with DAG(
         except Exception as e:
             logging.error(f"dbt transform failed: {str(e)}")
             raise
-
     def run_dbt_transform_watchlist(**kwargs):
         logging.info("Starting dbt transformation...")
 
@@ -336,37 +331,118 @@ with DAG(
             logging.error(f"dbt transform failed: {str(e)}")
             raise
 
+    t4_dbt_bash_command = """
+    set -e
+    echo "Starting dbt transformation..."
+
+    cd /opt/airflow/dbt_project
+
+    echo "Running dbt run for fct_customer_by_country..."
+    echo "meow"
+    dbt run --select fct_customer_by_country
+
+    echo "Running dbt test for fct_customer_by_country..."
+    dbt test --select fct_customer_by_country
+
+    echo "dbt transformation completed successfully."
+    """
+
+    t5_dbt_bash_command = """
+    set -e
+    echo "Starting dbt transformation..."
+
+    cd /opt/airflow/dbt_project
+
+    echo "Running dbt run for fct_customer_by_monthly..."
+    echo "meow"
+    dbt run --select run_dbt_transform_monthly
+
+    echo "Running dbt test for fct_customer_by_monthly..."
+    dbt test --select run_dbt_transform_monthly
+
+    echo "dbt transformation completed successfully."
+    """
+
+    t6_dbt_bash_command = """
+    set -e
+    echo "Starting dbt transformation..."
+
+    cd /opt/airflow/dbt_project
+
+    echo "Running dbt run for fct_customer_by_platform..."
+    echo "meow"
+    dbt run --select run_dbt_transform_platform
+
+    echo "Running dbt test for fct_customer_by_platform..."
+    dbt test --select run_dbt_transform_platform
+
+    echo "dbt transformation completed successfully."
+    """
+
+    t7_dbt_bash_command = """
+    set -e
+    echo "Starting dbt transformation..."
+
+    cd /opt/airflow/dbt_project
+
+    echo "Running dbt run for fct_customer_by_watchlist..."
+    echo "meow"
+    dbt run --select run_dbt_transform_watchlist
+
+    echo "Running dbt test for fct_customer_by_watchlist..."
+    dbt test --select run_dbt_transform_watchlist
+
+    echo "dbt transformation completed successfully."
+    """
+
+    t4 = BashOperator(
+        task_id='run_dbt_transform',
+        bash_command=t4_dbt_bash_command,
+        dag=dag
+    ) 
+
+    t5 = BashOperator(
+        task_id='run_dbt_transform_monthly',
+        python_callable=t5_dbt_bash_command,
+    )
+    t6 = BashOperator(
+        task_id='run_dbt_transform_platform',
+        python_callable=t6_dbt_bash_command,
+    )
+    t7 = BashOperator(
+        task_id='run_dbt_transform_watchlist',
+        python_callable=t7_dbt_bash_command,
+    )  
+
+
     t1 = PythonOperator(
         task_id='extract_customer_data',
         python_callable=extract_customer_data,
     )
-
     t2 = PythonOperator(
         task_id='save_to_minio',
         python_callable=save_to_minio,
     )
-
     t3 = PythonOperator(
         task_id='load_to_postgres',
         python_callable=load_to_postgres,
     )
-
-    t4 = PythonOperator(
-        task_id='run_dbt_transform',
-        python_callable=run_dbt_transform,
-    )
-    t5 = PythonOperator(
-        task_id='run_dbt_transform_monthly',
-        python_callable=run_dbt_transform_monthly,
-    )
-    t6 = PythonOperator(
-        task_id='run_dbt_transform_platform',
-        python_callable=run_dbt_transform_platform,
-    )
-    t7 = PythonOperator(
-        task_id='run_dbt_transform_watchlist',
-        python_callable=run_dbt_transform_watchlist,
-    )
+    # t4 = PythonOperator(
+    #     task_id='run_dbt_transform',
+    #     python_callable=run_dbt_transform,
+    # )
+    # t5 = PythonOperator(
+    #     task_id='run_dbt_transform_monthly',
+    #     python_callable=run_dbt_transform_monthly,
+    # )
+    # t6 = PythonOperator(
+    #     task_id='run_dbt_transform_platform',
+    #     python_callable=run_dbt_transform_platform,
+    # )
+    # t7 = PythonOperator(
+    #     task_id='run_dbt_transform_watchlist',
+    #     python_callable=run_dbt_transform_watchlist,
+    # )
 
     # Define task dependencies
     t1 >> t2 >> t3 >> t4 >> t5 >> t6 >> t7
