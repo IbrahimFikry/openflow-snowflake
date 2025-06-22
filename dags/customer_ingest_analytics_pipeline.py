@@ -403,15 +403,18 @@ with DAG(
 
     t5 = BashOperator(
         task_id='run_dbt_transform_monthly',
-        python_callable=t5_dbt_bash_command,
+        bash_command=t5_dbt_bash_command,
+        dag=dag
     )
     t6 = BashOperator(
         task_id='run_dbt_transform_platform',
-        python_callable=t6_dbt_bash_command,
+        bash_command=t6_dbt_bash_command,
+        dag=dag
     )
     t7 = BashOperator(
         task_id='run_dbt_transform_watchlist',
-        python_callable=t7_dbt_bash_command,
+        bash_command=t7_dbt_bash_command,
+        dag=dag
     )  
 
 
