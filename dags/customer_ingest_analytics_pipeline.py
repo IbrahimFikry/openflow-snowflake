@@ -355,10 +355,10 @@ with DAG(
 
     echo "Running dbt run for fct_customer_by_monthly..."
     echo "meow"
-    dbt run --select run_dbt_transform_monthly
+    dbt run --select fct_customer_by_monthly
 
     echo "Running dbt test for fct_customer_by_monthly..."
-    dbt test --select run_dbt_transform_monthly
+    dbt test --select fct_customer_by_monthly
 
     echo "dbt transformation completed successfully."
     """
@@ -371,10 +371,10 @@ with DAG(
 
     echo "Running dbt run for fct_customer_by_platform..."
     echo "meow"
-    dbt run --select run_dbt_transform_platform
+    dbt run --select fct_customer_by_platform
 
     echo "Running dbt test for fct_customer_by_platform..."
-    dbt test --select run_dbt_transform_platform
+    dbt test --select fct_customer_by_platform
 
     echo "dbt transformation completed successfully."
     """
@@ -387,10 +387,10 @@ with DAG(
 
     echo "Running dbt run for fct_customer_by_watchlist..."
     echo "meow"
-    dbt run --select run_dbt_transform_watchlist
+    dbt run --select fct_customer_by_watchlist
 
     echo "Running dbt test for fct_customer_by_watchlist..."
-    dbt test --select run_dbt_transform_watchlist
+    dbt test --select fct_customer_by_watchlist
 
     echo "dbt transformation completed successfully."
     """
