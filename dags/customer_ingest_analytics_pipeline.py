@@ -335,7 +335,7 @@ with DAG(
     set -e
     echo "Starting dbt transformation..."
 
-    cd /opt/airflow/dbt_project
+    cd /opt/airflow
 
     echo "Running dbt run for fct_customer_by_country..."
     echo "meow"
@@ -351,7 +351,7 @@ with DAG(
     set -e
     echo "Starting dbt transformation..."
 
-    cd /opt/airflow/dbt_project
+    cd /opt/airflow
 
     echo "Running dbt run for fct_customer_by_monthly..."
     echo "meow"
@@ -367,7 +367,7 @@ with DAG(
     set -e
     echo "Starting dbt transformation..."
 
-    cd /opt/airflow/dbt_project
+    cd /opt/airflow
 
     echo "Running dbt run for fct_customer_by_platform..."
     echo "meow"
@@ -383,7 +383,7 @@ with DAG(
     set -e
     echo "Starting dbt transformation..."
 
-    cd /opt/airflow/dbt_project
+    cd /opt/airflow
 
     echo "Running dbt run for fct_customer_by_watchlist..."
     echo "meow"
