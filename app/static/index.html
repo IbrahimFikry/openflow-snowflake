@@ -126,12 +126,15 @@
                         ingestion and processing for analytics.
                       </p>
                       <div class="btn-box">
-                        <a href="#" class="btn1" id="btn-north-america"
-                          >North America</a
-                        >
-                        <a href="#" class="btn1" id="btn-southeast-asia"
-                          >Southeast Asia</a
-                        >
+                        <button onclick="trigger('North America')">
+                          North America
+                        </button>
+                        <button onclick="trigger('Southeast Asia')">
+                          Southeast Asia
+                        </button>
+                        <button onclick="trigger('Europe')">Europe</button>
+                        <button onclick="trigger('Africa')">Africa</button>
+                        <button onclick="trigger('Oceania')">Oceania</button>
                       </div>
                       <div
                         id="password-modal"
@@ -216,7 +219,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="img-box">
-                      <img src="images/about-img.png" alt="" />
+                      <img src="images/AirflowLogo.png" alt="" />
                     </div>
                   </div>
                 </div>
@@ -250,7 +253,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="img-box">
-                      <img src="images/slider-img.png" alt="" />
+                      <img src="images/metabase-2.png" alt="" />
                     </div>
                   </div>
                 </div>
@@ -912,6 +915,17 @@
           document.getElementById("password-modal").style.display = "none";
           document.getElementById("modal-password").value = "";
         });
+    </script>
+    <script>
+      function trigger(region) {
+        fetch("/api/generate-customer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ region }),
+        })
+          .then((res) => res.json())
+          .then((data) => alert(data.message));
+      }
     </script>
   </body>
 </html>
