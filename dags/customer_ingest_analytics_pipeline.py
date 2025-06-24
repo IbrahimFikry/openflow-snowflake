@@ -355,10 +355,10 @@ with DAG(
 
     echo "Running dbt run for fct_customer_by_monthly..."
     echo "meow"
-    dbt run --select fct_customer_by_monthly
+    dbt run --select fct_customer_by_month
 
     echo "Running dbt test for fct_customer_by_monthly..."
-    dbt test --select fct_customer_by_monthly
+    dbt test --select fct_customer_by_month
 
     echo "dbt transformation completed successfully."
     """

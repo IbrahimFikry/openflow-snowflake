@@ -178,6 +178,17 @@ services:
     networks:
       - pipeline_network
 
+  web:
+    build: .
+    container_name: web-app
+    restart: always
+    ports:
+      - "80:8000"
+    depends_on:
+      - mongo
+    networks:
+      - pipeline_network
+
 networks:
   pipeline_network:
     driver: bridge

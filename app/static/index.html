@@ -126,15 +126,24 @@
                         ingestion and processing for analytics.
                       </p>
                       <div class="btn-box">
-                        <button onclick="trigger('North America')">
+                        <button class="btn1" onclick="trigger('North America')">
                           North America
                         </button>
-                        <button onclick="trigger('Southeast Asia')">
+                        <button
+                          class="btn1"
+                          onclick="trigger('Southeast Asia')"
+                        >
                           Southeast Asia
                         </button>
-                        <button onclick="trigger('Europe')">Europe</button>
-                        <button onclick="trigger('Africa')">Africa</button>
-                        <button onclick="trigger('Oceania')">Oceania</button>
+                        <button class="btn1" onclick="trigger('Europe')">
+                          Europe
+                        </button>
+                        <button class="btn1" onclick="trigger('Africa')">
+                          Africa
+                        </button>
+                        <button class="btn1" onclick="trigger('Oceania')">
+                          Oceania
+                        </button>
                       </div>
                       <div
                         id="password-modal"
@@ -860,65 +869,9 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
     <!-- End Google Map -->
     <script>
-      let selectedRegion = null;
-
-      document
-        .getElementById("btn-north-america")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          selectedRegion = "North America";
-          document.getElementById("password-modal").style.display = "flex";
-        });
-
-      document
-        .getElementById("btn-southeast-asia")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          selectedRegion = "Southeast Asia";
-          document.getElementById("password-modal").style.display = "flex";
-        });
-
-      document
-        .getElementById("submit-password")
-        .addEventListener("click", function () {
-          const password = document.getElementById("modal-password").value;
-          if (!password) {
-            alert("Please enter a password.");
-            return;
-          }
-
-          // Simulate API call
-          alert(
-            `Triggering ${selectedRegion} pipeline with password "${password}"`
-          );
-
-          // Example: Replace with real fetch
-          /*
-    fetch('/api/trigger', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ region: selectedRegion, password })
-    })
-    .then(res => res.json())
-    .then(data => alert('Success: ' + data.message))
-    .catch(err => alert('Error: ' + err.message));
-    */
-
-          document.getElementById("password-modal").style.display = "none";
-          document.getElementById("modal-password").value = "";
-        });
-
-      document
-        .getElementById("close-modal")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          document.getElementById("password-modal").style.display = "none";
-          document.getElementById("modal-password").value = "";
-        });
-    </script>
-    <script>
       function trigger(region) {
-        fetch("/api/generate-customer", {
+        console.log("Meow");
+        fetch("/api/generate-customer-500", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ region }),
