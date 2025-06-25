@@ -110,8 +110,6 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
     volumes:
       - ./dags:/opt/airflow/dags
-      - ./dbt_project:/opt/airflow/dbt_project
-      - ./dbt_project/.dbt:/home/airflow/.dbt
 
     ports:
       - "10000:8080"
@@ -130,8 +128,6 @@ services:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_AIRFLOW_USER}:${POSTGRES_AIRFLOW_PASSWORD}@postgres_airflow:5432/airflow
     volumes:
       - ./dags:/opt/airflow/dags
-      - ./dbt_project:/opt/airflow/dbt_project
-      - ./dbt_project/.dbt:/home/airflow/.dbt
 
     command: scheduler
     networks:
@@ -147,8 +143,6 @@ services:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_AIRFLOW_USER}:${POSTGRES_AIRFLOW_PASSWORD}@postgres_airflow:5432/airflow
     volumes:
       - ./dags:/opt/airflow/dags
-      - ./dbt_project:/opt/airflow/dbt_project
-      - ./dbt_project/.dbt:/home/airflow/.dbt
 
     command: bash -c "airflow db migrate && airflow users create \
       --username ${AIRFLOW_USER} \
