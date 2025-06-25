@@ -339,10 +339,16 @@ with DAG(
 
     echo "Running dbt run for fct_customer_by_country..."
     echo "meow"
-    dbt run --select fct_customer_by_country
+    dbt run --select fct_customer_by_country \
+  --project-dir /opt/airflow/dags/dbt/analytics_project \
+  --profiles-dir /home/airflow/.dbt \
+  --target-path /tmp/dbt_target
 
     echo "Running dbt test for fct_customer_by_country..."
-    dbt test --select fct_customer_by_country
+    dbt test --select fct_customer_by_country \
+  --project-dir /opt/airflow/dags/dbt/analytics_project \
+  --profiles-dir /home/airflow/.dbt \
+  --target-path /tmp/dbt_target
 
     echo "dbt transformation completed successfully."
     """
@@ -355,10 +361,16 @@ with DAG(
 
     echo "Running dbt run for fct_customer_by_monthly..."
     echo "meow"
-    dbt run --select fct_customer_by_month
+    dbt run --select fct_customer_by_month \
+  --project-dir /opt/airflow/dags/dbt/analytics_project \
+  --profiles-dir /home/airflow/.dbt \
+  --target-path /tmp/dbt_target
 
     echo "Running dbt test for fct_customer_by_monthly..."
-    dbt test --select fct_customer_by_month
+    dbt test --select fct_customer_by_month \
+  --project-dir /opt/airflow/dags/dbt/analytics_project \
+  --profiles-dir /home/airflow/.dbt \
+  --target-path /tmp/dbt_target
 
     echo "dbt transformation completed successfully."
     """
@@ -371,10 +383,16 @@ with DAG(
 
     echo "Running dbt run for fct_customer_by_platform..."
     echo "meow"
-    dbt run --select fct_customer_by_platform
+    dbt run --select fct_customer_by_platform \
+  --project-dir /opt/airflow/dags/dbt/analytics_project \
+  --profiles-dir /home/airflow/.dbt \
+  --target-path /tmp/dbt_target
 
     echo "Running dbt test for fct_customer_by_platform..."
-    dbt test --select fct_customer_by_platform
+    dbt test --select fct_customer_by_platform \
+  --project-dir /opt/airflow/dags/dbt/analytics_project \
+  --profiles-dir /home/airflow/.dbt \
+  --target-path /tmp/dbt_target
 
     echo "dbt transformation completed successfully."
     """
@@ -387,10 +405,16 @@ with DAG(
 
     echo "Running dbt run for fct_customer_by_watchlist..."
     echo "meow"
-    dbt run --select fct_customer_by_watchlist
+    dbt run --select fct_customer_by_watchlist \
+  --project-dir /opt/airflow/dags/dbt/analytics_project \
+  --profiles-dir /home/airflow/.dbt \
+  --target-path /tmp/dbt_target
 
     echo "Running dbt test for fct_customer_by_watchlist..."
-    dbt test --select fct_customer_by_watchlist
+    dbt test --select fct_customer_by_watchlist \
+  --project-dir /opt/airflow/dags/dbt/analytics_project \
+  --profiles-dir /home/airflow/.dbt \
+  --target-path /tmp/dbt_target
 
     echo "dbt transformation completed successfully."
     """
